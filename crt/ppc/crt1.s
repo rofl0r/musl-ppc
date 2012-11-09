@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .weak  _init
         .weak  _fini
         .global _start

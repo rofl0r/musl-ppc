@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .global __setjmp
         .global _setjmp
         .global setjmp

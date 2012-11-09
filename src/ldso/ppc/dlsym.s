@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .text
         .global dlsym
         .type   dlsym,@function

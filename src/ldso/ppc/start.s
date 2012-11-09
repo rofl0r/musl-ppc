@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .global _start
         .type   _start,@function
 _start:

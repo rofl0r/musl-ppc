@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .global __syscall
         .type   __syscall,@function
 __syscall:

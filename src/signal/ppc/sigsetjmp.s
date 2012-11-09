@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .global sigsetjmp
         .type sigsetjmp,@function
 sigsetjmp:

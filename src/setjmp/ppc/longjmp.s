@@ -1,4 +1,3 @@
-#include <bits/asm.h>
         .global _longjmp
         .global longjmp
         .type   _longjmp,@function
