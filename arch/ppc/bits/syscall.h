@@ -163,12 +163,16 @@
 #define __NR_nanosleep              162
 #define __NR_mremap                 163
 #define __NR_setresuid32            164
+#define __NR_setresuid              164
 #define __NR_getresuid32            165
+#define __NR_getresuid              165
 #define __NR_query_module           166
 #define __NR_poll                   167
 #define __NR_nfsservctl             168
 #define __NR_setresgid32            169
+#define __NR_setresgid              169
 #define __NR_getresgid32            170
+#define __NR_getresgid              170
 #define __NR_prctl                  171
 #define __NR_rt_sigreturn           172
 #define __NR_rt_sigaction           173
@@ -317,6 +321,7 @@
 #define __NR_utimensat		304
 #define __NR_signalfd		305
 #define __NR_timerfd		306
+#define __NR_timerfd_create     306
 #define __NR_eventfd		307
 #define __NR_sync_file_range2	308
 #define __NR_fallocate		309
@@ -359,6 +364,10 @@
 #define __NR_open_by_handle_at     346
 #define __NR_clock_adjtime         347
 #define __NR_syncfs                348
+#define __NR_sendmmsg              349
+#define __NR_setns                 350
+#define __NR_process_vm_readv      351
+#define __NR_process_vm_writev     352
 
 /*
  * repeated with SYS prefix
@@ -527,13 +536,17 @@
 #define SYS_sched_rr_get_interval  161
 #define SYS_nanosleep              162
 #define SYS_mremap                 163
-#define SYS_setresuid32            164
-#define SYS_getresuid32            165
+#define SYS_setresuid32            164 
+#define SYS_setresuid              164
+#define SYS_getresuid32            165 
+#define SYS_getresuid              165
 #define SYS_query_module           166
 #define SYS_poll                   167
 #define SYS_nfsservctl             168
 #define SYS_setresgid32            169
-#define SYS_getresgid32            170
+#define SYS_setresgid              169 
+#define SYS_getresgid32            170 
+#define SYS_getresgid              170
 #define SYS_prctl                  171
 #define SYS_rt_sigreturn           172
 #define SYS_rt_sigaction           173
@@ -682,6 +695,7 @@
 #define SYS_utimensat		304
 #define SYS_signalfd		305
 #define SYS_timerfd		306
+#define SYS_timerfd_create      306       
 #define SYS_eventfd		307
 #define SYS_sync_file_range2	308
 #define SYS_fallocate		309
@@ -724,3 +738,8 @@
 #define SYS_open_by_handle_at     346
 #define SYS_clock_adjtime         347
 #define SYS_syncfs                348
+#define SYS_sendmmsg              349   
+#define SYS_setns                 350     
+#define SYS_process_vm_readv      351   
+#define SYS_process_vm_writev     352 
+
