@@ -4,13 +4,13 @@
         .type   longjmp,@function
 _longjmp:
 longjmp:
-        cmpi    7, 0, r3, 0
+        cmpi    7, 0, 3, 0
         bne     7, 1f
-        addi    r3, r3, 1
-1:      lmw     r8, 4(r3)               // load r8-r31
-        mr      r6, r4
-        mtlr    r11
-        mtcr    r12
-        mr      r2, r9
-        mr      r1, r10
+        addi    3, 3, 1
+1:      lmw     8, 4(3)               # load r8-r31
+        mr      6, 4
+        mtlr    11
+        mtcr    12
+        mr      2, 9
+        mr      1, 10
         blr 
