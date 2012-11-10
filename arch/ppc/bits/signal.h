@@ -1,17 +1,35 @@
 #if defined(_POSIX_SOURCE) || defined(_POSIX_C_SOURCE) \
- || defined(_XOPEN_SOURCE) || defined(_GNU_SOURCE)
+ || defined(_XOPEN_SOURCE) || defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
+
+typedef unsigned long gregset_t[48];
 
 typedef struct {
-	unsigned long __regs[21];
+	double fpregs[32];
+	double fpscr;
+	unsigned _pad[2];
+} fpregset_t;
+
+typedef struct {
+	unsigned vrregs[32][4];
+	unsigned vrsave;
+	unsigned _pad[2];
+	unsigned vscr;
+} vrregset_t;
+
+typedef struct {
+	gregset_t gregs;
+	fpregset_t fpregs;
+	vrregset_t vrregs __attribute__((__aligned__(16)));
 } mcontext_t;
 
 typedef struct __ucontext {
 	unsigned long uc_flags;
 	struct __ucontext *uc_link;
 	stack_t uc_stack;
+	int uc_pad[7];
 	mcontext_t uc_mcontext;
 	sigset_t uc_sigmask;
-	unsigned long uc_regspace[128];
+	char uc_reg_space[sizeof(mcontext_t) + 12];
 } ucontext_t;
 
 #define SA_NOCLDSTOP  1
@@ -23,15 +41,15 @@ typedef struct __ucontext {
 #define SA_RESETHAND  0x80000000
 #define SA_RESTORER   0x04000000
 
-#ifdef _GNU_SOURCE
+#if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
+
 struct sigcontext
 {
-	unsigned long trap_no, error_code, oldmask;
-	unsigned long arm_r0, arm_r1, arm_r2, arm_r3;
-	unsigned long arm_r4, arm_r5, arm_r6, arm_r7;
-	unsigned long arm_r8, arm_r9, arm_r10, arm_fp;
-	unsigned long arm_ip, arm_sp, arm_lr, arm_pc;
-	unsigned long arm_cpsr, fault_address;
+	unsigned long _unused[4];
+	int signal;
+	unsigned long handler;
+	unsigned long oldmask;
+	void *regs; // originally struct pt_regs _user *regs, pt_regs is defined in arch/powerpc/include/asm/ptrace.h
 };
 #define NSIG      64
 #endif
@@ -71,7 +89,3 @@ struct sigcontext
 #define SIGPWR    30
 #define SIGSYS    31
 #define SIGUNUSED SIGSYS
-
-#ifdef _BSD_SOURCE
-#define SIGINFO         SIGUSR1 /* For NetBSD compatability */
-#endif
