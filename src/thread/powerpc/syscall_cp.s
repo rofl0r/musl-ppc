@@ -45,14 +45,14 @@ __cp_begin:
 	mr      7, 9                  # arg5
 	mr      8, 10                  # arg6
 	sc
+	.global __cp_end
+__cp_end:
 	mfcr    0                      # Check for an error, i.e. put cond reg into r0
 	rlwinm  4, 0, 0, 3, 3        # by checking for bit 28.
 	cmplwi  0, 4, 0               # It is an error if non-zero.
 	beq+    0, 2f                  # Jump if not an error.
 	neg     3, 3                  # Negate the error number.
 2:
-	.global __cp_end
-__cp_end:
 	lwz     0, -4(1)              # Restore the return address.
 	mtlr    0	# move r0 into link reg
 	blr	# ret
