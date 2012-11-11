@@ -30,7 +30,7 @@ __cp_begin:
 	lwz 0, 0(3) #deref pointer into r0
 	cmpwi cr7, 0, 0 #compare r0 with 0, store result in cr7. 
 	# why cr7 ? because thats the code gcc generated for an equivalent C prog and the ppc asm docs suck
-	beq- cr7, 1f #jump to label 1 if r0 was 0
+	beq+ cr7, 1f #jump to label 1 if r0 was 0
 	# FIXME: in case cancel is called which return address shall we put into the link reg ?
 	bl __cancel #else call cancel
 	#ok, the cancel flag was not set
