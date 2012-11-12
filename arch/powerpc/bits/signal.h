@@ -15,7 +15,13 @@ typedef struct {
 	unsigned _pad[2];
 	unsigned vscr;
 } vrregset_t;
-
+#if 0
+typedef struct {
+        void *ss_sp;
+        int ss_flags;
+        size_t ss_size;
+} stack_t;
+#endif
 typedef struct {
 	gregset_t gregs;
 	fpregset_t fpregs;
@@ -27,19 +33,25 @@ typedef struct __ucontext {
 	struct __ucontext *uc_link;
 	stack_t uc_stack;
 	int uc_pad[7];
-	mcontext_t uc_mcontext;
+	struct mcontext_t *uc_regs;
+	
 	sigset_t uc_sigmask;
+	
+        int             uc_maskext[30];
+        int             uc_pad2[3];
+	
+	mcontext_t uc_mcontext;
 	char uc_reg_space[sizeof(mcontext_t) + 12];
 } ucontext_t;
 
-#define SA_NOCLDSTOP  1
-#define SA_NOCLDWAIT  2
-#define SA_SIGINFO    4
-#define SA_ONSTACK    0x08000000
-#define SA_RESTART    0x10000000
-#define SA_NODEFER    0x40000000
-#define SA_RESETHAND  0x80000000
-#define SA_RESTORER   0x04000000
+#define SA_NOCLDSTOP  1U
+#define SA_NOCLDWAIT  2U
+#define SA_SIGINFO    4U
+#define SA_ONSTACK    0x08000000U
+#define SA_RESTART    0x10000000U
+#define SA_NODEFER    0x40000000U
+#define SA_RESETHAND  0x80000000U
+#define SA_RESTORER   0x04000000U
 
 #if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
 
@@ -50,6 +62,10 @@ struct sigcontext
 	unsigned long handler;
 	unsigned long oldmask;
 	void *regs; // originally struct pt_regs _user *regs, pt_regs is defined in arch/powerpc/include/asm/ptrace.h
+	gregset_t gp_regs;
+	fpregset_t fp_regs;
+	vrregset_t *v_regs;
+	long vmx_reserve[33+33+32+1]; // 33=34 for ppc64
 };
 #define NSIG      64
 #endif
@@ -62,6 +78,7 @@ struct sigcontext
 #define SIGILL    4
 #define SIGTRAP   5
 #define SIGABRT   6
+#define SIGIOT    6
 #define SIGBUS    7
 #define SIGFPE    8
 #define SIGKILL   9
