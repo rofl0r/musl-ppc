@@ -22,17 +22,21 @@ __syscall_cp_asm:
 	# at enter: r3 = pointer to self->cancel, r4: syscall no, r5: first arg, r6: 2nd, r7: 3rd, r8: 4th, r9: 5th, r10: 6th
 	.global __cp_begin
 __cp_begin:
-	mflr    0 # put link register (return addr) into r0
-	stw     0, -4(1)              # Save the return address on stack
+#	mflr    0 # put link register (return addr) into r0
+#	stw     0, -4(1)              # Save the return address on stack
 	# r3 holds first argument. 
 	# its a pointer to self->cancel. 
 	# we must compare the dereferenced value with 0 and jump to __cancel if its not
+	
 	lwz 0, 0(3) #deref pointer into r0
+	
 	cmpwi cr7, 0, 0 #compare r0 with 0, store result in cr7. 
+	
 	# why cr7 ? because thats the code gcc generated for an equivalent C prog and the ppc asm docs suck
 	beq+ cr7, 1f #jump to label 1 if r0 was 0
-	# FIXME: in case cancel is called which return address shall we put into the link reg ?
-	bl __cancel #else call cancel
+	
+	b __cancel #else call cancel
+	
 	#ok, the cancel flag was not set
 	# syscall: number goes to r0, the rest 3-8
 1:
@@ -47,12 +51,17 @@ __cp_begin:
 	sc
 	.global __cp_end
 __cp_end:
-	mfcr    0                      # Check for an error, i.e. put cond reg into r0
-	rlwinm  4, 0, 0, 3, 3        # by checking for bit 28.
-	cmplwi  0, 4, 0               # It is an error if non-zero.
-	beq+    0, 2f                  # Jump if not an error.
-	neg     3, 3                  # Negate the error number.
-2:
-	lwz     0, -4(1)              # Restore the return address.
-	mtlr    0	# move r0 into link reg
-	blr	# ret
+	bnslr+ # return if no summary overflow. 
+	#else negate result.
+	neg 3, 3
+	blr
+	
+#	mfcr    0                      # Check for an error, i.e. put cond reg into r0
+#	rlwinm  4, 0, 0, 3, 3        # by checking for bit 28.
+#	cmplwi  0, 4, 0               # It is an error if non-zero.
+#	beq+    0, 2f                  # Jump if not an error.
+#	neg     3, 3                  # Negate the error number.
+#2:
+#	lwz     0, -4(1)              # Restore the return address.
+#	mtlr    0	# move r0 into link reg
+#	blr	# ret
