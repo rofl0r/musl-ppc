@@ -15,13 +15,7 @@ typedef struct {
 	unsigned _pad[2];
 	unsigned vscr;
 } vrregset_t;
-#if 0
-typedef struct {
-        void *ss_sp;
-        int ss_flags;
-        size_t ss_size;
-} stack_t;
-#endif
+
 typedef struct {
 	gregset_t gregs;
 	fpregset_t fpregs;
@@ -61,11 +55,12 @@ struct sigcontext
 	int signal;
 	unsigned long handler;
 	unsigned long oldmask;
-	void *regs; // originally struct pt_regs _user *regs, pt_regs is defined in arch/powerpc/include/asm/ptrace.h
+	void *regs; /* originally struct pt_regs _user *regs,
+			pt_regs is defined in arch/powerpc/include/asm/ptrace.h */
 	gregset_t gp_regs;
 	fpregset_t fp_regs;
 	vrregset_t *v_regs;
-	long vmx_reserve[33+33+32+1]; // 33=34 for ppc64
+	long vmx_reserve[33+33+32+1]; /* 33=34 for ppc64 */
 };
 #define NSIG      64
 #endif

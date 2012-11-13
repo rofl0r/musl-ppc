@@ -1,3 +1,5 @@
+# FIXME : does not work, the small data array needs to be relocated.
+# see elfspec_ppc.pdf, page 76-84
         .global _start
         .type   _start,@function
 _start:

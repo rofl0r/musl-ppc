@@ -38,12 +38,3 @@ setjmp:
 	li 3, 0
 	# 5) return
 	blr
-	
-#        mflr    11
- #       mfcr    12
-  #      mr      10, 1
-   #     mr      9, 2
-    #    stmw    8, 0(3)               # save r8-r31
-     #   li      3,0
-      #  blr
-

@@ -5,9 +5,11 @@ __clone:
 # int clone(fn, stack, flags, arg, ptid, tls, ctid)
 #            a  b       c     d     e    f    g
 #            3  4       5     6     7    8    9
+# pseudo C code:
 # tid = syscall(SYS_clone,c,b,e,f,g);
 # if (!tid) syscall(SYS_exit, a(d));
 # return tid;
+
 # SYS_clone = 120
 # SYS_exit = 1
 
