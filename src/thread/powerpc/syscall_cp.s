@@ -1,10 +1,10 @@
-#r0: volatile ? may be modified during linkage?
-#r1: stack frame (always valid?): 16 bit align
-#r2: tls/thread pointer
+#r0: volatile. may be modified during linkage.
+#r1: stack frame: 16 byte alignment.
+#r2: tls/thread pointer on pp32
 #r3,r4: return values, first args
 #r5-r10: args
-#r11-r12: volatile ? may be modified during linkage?
-#r13: small data area ? pointer
+#r11-r12: volatile. may be modified during linkage
+#r13: "small data area" pointer
 #r14 - r30: local vars
 #r31: local or environment pointer
 
@@ -22,25 +22,19 @@ __syscall_cp_asm:
 	# at enter: r3 = pointer to self->cancel, r4: syscall no, r5: first arg, r6: 2nd, r7: 3rd, r8: 4th, r9: 5th, r10: 6th
 	.global __cp_begin
 __cp_begin:
-#	mflr    0 # put link register (return addr) into r0
-#	stw     0, -4(1)              # Save the return address on stack
-	# r3 holds first argument. 
-	# its a pointer to self->cancel. 
+	# r3 holds first argument, its a pointer to self->cancel. 
 	# we must compare the dereferenced value with 0 and jump to __cancel if its not
 	
 	lwz 0, 0(3) #deref pointer into r0
 	
 	cmpwi cr7, 0, 0 #compare r0 with 0, store result in cr7. 
-	
-	# why cr7 ? because thats the code gcc generated for an equivalent C prog and the ppc asm docs suck
 	beq+ cr7, 1f #jump to label 1 if r0 was 0
 	
-	b __cancel #else call cancel
-	
+	b __cancel #else call cancel 
+	# (the return address is not needed, since __cancel never returns)
+1:
 	#ok, the cancel flag was not set
 	# syscall: number goes to r0, the rest 3-8
-1:
-	# mr dest src
 	mr      0, 4                  # put the system call number into r0
 	mr      3, 5                  # Shift the arguments: arg1
 	mr      4, 6                  # arg2
