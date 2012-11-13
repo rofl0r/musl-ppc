@@ -135,7 +135,7 @@
 #define __NR_bdflush                134
 #define __NR_sysfs                  135
 #define __NR_personality            136
-#define __NR_afs_syscall            137 /* Syscall for Andrew File System */
+#define __NR_afs_syscall            137
 #define __NR_setfsuid               138
 #define __NR_setfsgid               139
 #define __NR__llseek                140
@@ -189,10 +189,10 @@
 #define __NR_capset                 184
 #define __NR_sigaltstack            185
 #define __NR_sendfile               186
-#define __NR_getpmsg                187     /* some people actually want streams */
-#define __NR_putpmsg                188     /* some people actually want streams */
+#define __NR_getpmsg                187
+#define __NR_putpmsg                188
 #define __NR_vfork                  189
-#define __NR_ugetrlimit             190     /* SuS compliant getrlimit */
+#define __NR_ugetrlimit             190
 #define __NR_readahead              191
 #if !defined(__PPC64) || defined(__ABI32)
 #define __NR_mmap2                  192
@@ -230,7 +230,6 @@
 #define __NR_futex                  221
 #define __NR_sched_setaffinity      222
 #define __NR_sched_getaffinity      223
-/* 224 currently unused */
 #define __NR_tuxcall                225
 #if !defined(__PPC64) || defined(__ABI32)
 #define __NR_sendfile64             226
@@ -267,7 +266,6 @@
 #endif
 #define __NR_rtas		255
 #define __NR_sys_debug_setcontext 256
-/* Number 257 is reserved for vserver */
 #define __NR_migrate_pages	258
 #define __NR_mbind		259
 #define __NR_get_mempolicy	260
@@ -509,7 +507,7 @@
 #define SYS_bdflush                134
 #define SYS_sysfs                  135
 #define SYS_personality            136
-#define SYS_afs_syscall            137 /* Syscall for Andrew File System */
+#define SYS_afs_syscall            137
 #define SYS_setfsuid               138
 #define SYS_setfsgid               139
 #define SYS__llseek                140
@@ -563,10 +561,10 @@
 #define SYS_capset                 184
 #define SYS_sigaltstack            185
 #define SYS_sendfile               186
-#define SYS_getpmsg                187     /* some people actually want streams */
-#define SYS_putpmsg                188     /* some people actually want streams */
+#define SYS_getpmsg                187
+#define SYS_putpmsg                188
 #define SYS_vfork                  189
-#define SYS_ugetrlimit             190     /* SuS compliant getrlimit */
+#define SYS_ugetrlimit             190
 #define SYS_readahead              191
 #if !defined(__PPC64) || defined(__ABI32)
 #define SYS_mmap2                  192
@@ -604,7 +602,6 @@
 #define SYS_futex                  221
 #define SYS_sched_setaffinity      222
 #define SYS_sched_getaffinity      223
-/* 224 currently unused */
 #define SYS_tuxcall                225
 #if !defined(__PPC64) || defined(__ABI32)
 #define SYS_sendfile64             226
@@ -641,7 +638,6 @@
 #endif
 #define SYS_rtas		255
 #define SYS_sys_debug_setcontext 256
-/* Number 257 is reserved for vserver */
 #define SYS_migrate_pages	258
 #define SYS_mbind		259
 #define SYS_get_mempolicy	260
